@@ -1,0 +1,32 @@
+Drive(){
+// This turns, drives, and brakes.
+}
+
+LineFollow(){
+if (ReadIR(false){
+// left side is off line.
+Drive();
+}
+
+if (ReadIR(true){
+// right side is off line.
+Drive();
+}
+
+
+
+}
+
+bool ReadIR(bool f4lt4r){
+// Returns the reading of either the Right or Left IR sensor.
+if (f4lt4r){
+// Right IR
+
+}else{
+// Left IR
+
+}
+
+return false;
+
+}

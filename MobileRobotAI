@@ -1,14 +1,48 @@
-Drive(){
+
+// LEFT Motor:
+int ENL = 9;
+int IN1 = 8;
+int IN2 = 7;
+
+// RIGHT Motor:
+int ENR = 3;
+int IN3 = 5;
+int IN4 = 4;
+
+void Drive(){
 // This turns, drives, and brakes.
+
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+
 }
 
-LineFollow(){
-if (ReadIR(false){
+void stopMotor(bool isDisabled){
+//left motor
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+
+//right motor
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+
+//disable motor check
+  if(isDisabled){
+    digitalWrite(ENL, LOW);
+    digitalWrite(ENR, LOW);
+  }
+}
+
+void LineFollow(){
+if (ReadIR(false)){
 // left side is off line.
 Drive();
 }
 
-if (ReadIR(true){
+if (ReadIR(true)){
 // right side is off line.
 Drive();
 }
@@ -29,4 +63,34 @@ if (f4lt4r){
 
 return false;
 
+}
+
+void setup(){
+  
+  pinMode(ENL, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  
+  pinMode(ENR, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("Init!");
+  
+  analogWrite(ENL, 127); //0-255
+  analogWrite(ENR, 127); //0-255
+  
+  
+  digitalWrite(ENL, HIGH);
+  digitalWrite(ENR, HIGH);
+}
+
+void loop(){
+  Drive(); //move forward
+  delay(1000); //wait 1 second
+  
+  while(1){
+      stopMotor(true); //stop forever
+  }
 }

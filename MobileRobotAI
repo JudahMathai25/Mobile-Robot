@@ -14,13 +14,13 @@ void Drive(){
 // This turns, drives, and brakes.
 
 
-  analogWrite(ENL, 127); //0-255
-  analogWrite(ENR, 127); //0-255
+  analogWrite(ENL, 255); //0-255 
+  analogWrite(ENR, 255); //0-255
 
-  digitalWrite(IN1, HIGH);
+  digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   
-  digitalWrite(IN3, HIGH);
+  digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
 
 }

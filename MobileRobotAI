@@ -1,5 +1,6 @@
 // Product of Judah
 
+// // Motor Stuff // //
 // LEFT Motor:
 int ENL = 9;
 int IN1 = 8;
@@ -9,6 +10,17 @@ int IN2 = 7;
 int ENR = 3;
 int IN3 = 5;
 int IN4 = 4;
+
+// Changing Motor Values
+int direction = 0; // 0 is stopped, 1 is forward, 2 is right, 3 is left.
+
+// // IR Sensor Stuff // //
+// The Pins
+int Right_IR = A0;
+int Left_IR = A5;
+
+// The Threshold
+int IRThreshold = 100; // lower is detecting, higher is not.
 
 void Drive(){
 // This turns, drives, and brakes.
@@ -44,15 +56,14 @@ void stopMotor(bool isDisabled){
 }
 
 void LineFollow(){
-if (ReadIR(false)){
-// left side is off line.
-Drive();
-}
+  if (ReadIR(false)){
+  // left side is off line.
+  Drive();
+  }
 
-if (ReadIR(true)){
-// right side is off line.
-Drive();
-}
+  if (ReadIR(true)){
+
+  }
 
 
 
@@ -62,6 +73,9 @@ bool ReadIR(bool f4lt4r){
 // Returns the reading of either the Right or Left IR sensor.
 if (f4lt4r){
 // Right IR
+int rightIRData = analogRead(Right_IR);
+Serial.println(rightIRData);
+
 
 }else{
 // Left IR
@@ -98,11 +112,12 @@ void setup(){
 
 void loop(){
   Drive(); //move forward
-  Serial.println("Go");
-  delay(3000); //wait 1 second
-  Serial.println("Stop");
+
+  bool egg = ReadIR(false);
   
+  /*
   while(1){
       stopMotor(true); //stop forever
   }
+  */
 }

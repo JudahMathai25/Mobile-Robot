@@ -20,7 +20,8 @@ int Right_IR = A0;
 int Left_IR = A5;
 
 // The Threshold
-int IRThreshold = 100; // lower is detecting, higher is not.
+int IRThreshold_R = 100; // lower is detecting, higher is not.
+int IRThreshold_L = 100; // lower is detecting, higher is not.
 
 void Drive(){
 // This turns, drives, and brakes.
@@ -55,33 +56,51 @@ void stopMotor(bool isDisabled){
   enableMotors(false);
 }
 
-void LineFollow(){
-  if (ReadIR(false)){
-  // left side is off line.
-  Drive();
+void LineFollow(bool right, bool left){
+  // Right Motor
+  digitalWrite(IN1, LOW);
+  if (right){
+    digitalWrite(IN2, LOW);
+  }else{
+    digitalWrite(IN2, HIGH);
   }
 
-  if (ReadIR(true)){
-
+  // Left Motor
+  digitalWrite(IN3, LOW);
+  if (left){
+    digitalWrite(IN4, LOW);
+  }else{
+    digitalWrite(IN4, HIGH);
   }
-
-
-
 }
 
 bool ReadIR(bool f4lt4r){
 // Returns the reading of either the Right or Left IR sensor.
 if (f4lt4r){
-// Right IR
-int rightIRData = analogRead(Right_IR);
-Serial.println(rightIRData);
-
+  // Right IR
+  int rightIRData = analogRead(Right_IR);
+  Serial.print("R: ");
+  Serial.println(rightIRData);
+  if (rightIRData > IRThreshold_R){
+    return true;
+  }else{
+    return false;
+  }
 
 }else{
-// Left IR
-
+  // Left IR
+  int leftIRData = analogRead(Left_IR);
+  Serial.print("L: ");
+  Serial.println(leftIRData);
+  if (leftIRData > IRThreshold_L){
+    return true;
+  }else{
+    return false;
+  }
 }
 
+
+Serial.println("You seriously messed up!");
 return false;
 
 }
@@ -113,8 +132,9 @@ void setup(){
 void loop(){
   Drive(); //move forward
 
-  bool egg = ReadIR(false);
-  
+  bool right = ReadIR(true);
+  bool left = ReadIR(false);
+
   /*
   while(1){
       stopMotor(true); //stop forever

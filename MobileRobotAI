@@ -21,7 +21,7 @@ int Left_IR = A5;
 
 // The Threshold
 int IRThreshold_R = 100; // lower is detecting, higher is not.
-int IRThreshold_L = 100; // lower is detecting, higher is not.
+int IRThreshold_L = 400; // lower is detecting, higher is not.
 
 void Drive(){
 // This turns, drives, and brakes.

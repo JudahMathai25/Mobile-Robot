@@ -21,7 +21,10 @@ int Left_IR = A5;
 
 // The Threshold
 int IRThreshold_R = 100; // lower is detecting, higher is not.
-int IRThreshold_L = 400; // lower is detecting, higher is not.
+int IRThreshold_L = 100; // lower is detecting, higher is not.
+
+bool delaying = true;
+int delayAmount = 100; // In MiliSeconds, higher is slower, lower is faster.
 
 void Drive(){
 // This turns, drives, and brakes.
@@ -58,16 +61,14 @@ void stopMotor(bool isDisabled){
 
 void LineFollow(bool right, bool left){
   // Right Motor
-  digitalWrite(IN1, LOW);
-  if (right){
+  if (left){
     digitalWrite(IN2, LOW);
   }else{
     digitalWrite(IN2, HIGH);
   }
 
   // Left Motor
-  digitalWrite(IN3, LOW);
-  if (left){
+  if (right){
     digitalWrite(IN4, LOW);
   }else{
     digitalWrite(IN4, HIGH);
@@ -130,10 +131,17 @@ void setup(){
 }
 
 void loop(){
-  Drive(); //move forward
+  if(delaying){
+    //stopMotor(false);
+    delay(delayAmount);
+  }
+
+  //Drive(); //move forward
 
   bool right = ReadIR(true);
   bool left = ReadIR(false);
+
+  LineFollow(right, left);
 
   /*
   while(1){

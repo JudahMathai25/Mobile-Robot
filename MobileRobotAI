@@ -16,8 +16,8 @@ int direction = 0; // 0 is stopped, 1 is forward, 2 is right, 3 is left.
 
 // // IR Sensor Stuff // //
 // The Pins
-int Right_IR = A0;
-int Left_IR = A5;
+#define Right_IR A0
+#define Left_IR A5
 
 // The Threshold
 int IRThreshold_R = 100; // lower is detecting, higher is not.
@@ -132,7 +132,7 @@ void setup(){
 
 void loop(){
   if(delaying){
-    //stopMotor(false);
+    LineFollow(true, true);
     delay(delayAmount);
   }
 

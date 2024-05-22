@@ -1,9 +1,18 @@
 // Product of Judah
 
+/* Important Notes
+  Different 'mobile robots' differ wildly.
+  Your robot's ENL and/or ENR will be different.
+  Your robot's IRThreshold's will differ depending on lighting and the surfaces used.
+  This code was only tested on differing between black and white in a lit environment.
+  My code is better than Sam's
+
+*/
+
 // // Motor Stuff // //
 // LEFT Motor:
-int ENL = 9;
-int IN1 = 8;
+#define ENL 9
+#define IN1 8
 int IN2 = 7;
 
 // RIGHT Motor:
@@ -11,8 +20,6 @@ int ENR = 3;
 int IN3 = 5;
 int IN4 = 4;
 
-// Changing Motor Values
-int direction = 0; // 0 is stopped, 1 is forward, 2 is right, 3 is left.
 
 // // IR Sensor Stuff // //
 // The Pins
@@ -24,21 +31,13 @@ int IRThreshold_R = 100; // lower is detecting, higher is not.
 int IRThreshold_L = 100; // lower is detecting, higher is not.
 
 bool delaying = true;
-int delayAmount = 100; // In MiliSeconds, higher is slower, lower is faster.
+int delayAmount = 150; // In MS, higher is slower, lower is faster.
+int delayDriveAmount = 100; // In MS, higher is longer, lower is shorter, zero is no moving.
 
 void Drive(){
-// This turns, drives, and brakes.
-
-
+// This inits
   analogWrite(ENL, 255); //0-255 
-  analogWrite(ENR, 255); //0-255
-
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);
-  
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
-
+  analogWrite(ENR, 128); //0-255
 }
 
 void stopMotor(bool isDisabled){
@@ -54,9 +53,9 @@ void stopMotor(bool isDisabled){
   if(isDisabled){
     digitalWrite(ENL, LOW);
     digitalWrite(ENR, LOW);
+    enableMotors(false);
   }
 
-  enableMotors(false);
 }
 
 void LineFollow(bool right, bool left){
@@ -123,16 +122,14 @@ void setup(){
   Serial.begin(9600);
   Serial.println("Init!");
   
-  
-  digitalWrite(ENL, HIGH);
-  digitalWrite(ENR, HIGH);
+  Drive();
 
   enableMotors(true);
 }
 
 void loop(){
   if(delaying){
-    LineFollow(true, true);
+    stopMotor(false);
     delay(delayAmount);
   }
 
@@ -141,7 +138,10 @@ void loop(){
   bool right = ReadIR(true);
   bool left = ReadIR(false);
 
-  LineFollow(right, left);
+  if (delaying){
+    LineFollow(right, left);
+    delay(delayDriveAmount);
+  }
 
   /*
   while(1){
